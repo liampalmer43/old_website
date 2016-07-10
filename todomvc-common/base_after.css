@@ -1,0 +1,31 @@
+.blog_post {
+    width: 750px;
+    margin: auto;
+}
+
+.blog_image {
+    max-width: 100%;
+    min-width: 100%;
+}
+
+.blog {
+    text-align: center;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #ff9999;
+    text-align: center;
+    z-index: 1;
+}
+
+.spacer {
+    height: 230px;
+}
+
+body {
+    background-color: #d9d9d9;
+}

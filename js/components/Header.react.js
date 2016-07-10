@@ -1,47 +1,27 @@
-/**
- * Copyright (c) 2014-2015, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
 var React = require('react');
-var TodoActions = require('../actions/TodoActions');
-var TodoTextInput = require('./TodoTextInput.react');
+var NavigationActions = require('../actions/NavigationActions');
+var NavigationConstants = require('../constants/NavigationConstants');
+var Button = require('react-bootstrap/lib/Button');
 
 var Header = React.createClass({
+    _personalProjects: function() {
+        NavigationActions.update(NavigationConstants.PERSONAL_PROJECTS);
+    },
 
-  /**
-   * @return {object}
-   */
-  render: function() {
-    return (
-      <header id="header">
-        <h1>todos</h1>
-        <TodoTextInput
-          id="new-todo"
-          placeholder="What needs to be done?"
-          onSave={this._onSave}
-        />
-      </header>
-    );
-  },
+    _internships: function() {
+        NavigationActions.update(NavigationConstants.INTERNSHIPS);
+    },
 
-  /**
-   * Event handler called within TodoTextInput.
-   * Defining this here allows TodoTextInput to be used in multiple places
-   * in different ways.
-   * @param {string} text
-   */
-  _onSave: function(text) {
-    if (text.trim()){
-      TodoActions.create(text);
+    render: function() {
+        return (
+            <div className="header">
+                <h1>Liam Palmer</h1>
+                <h5>University of Waterloo - Computer Science, Applied Math, Computational Math</h5>
+                <Button onClick={this._personalProjects}>PERSONAL_PROJECTS</Button>
+                <Button onClick={this._internships}>INTERNSHIPS</Button>
+            </div>
+        );
     }
-
-  }
-
 });
 
 module.exports = Header;
