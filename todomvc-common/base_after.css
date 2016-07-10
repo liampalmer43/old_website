@@ -18,14 +18,36 @@
     left: 0;
     right: 0;
     background-color: #ff9999;
-    text-align: center;
     z-index: 1;
+    padding: 10px 20px;
+    max-height: 150px;
+    overflow: hidden;
+}
+
+.header_left {
+    text-align: left;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.header_center {
+    text-align: center;
+}
+
+.header_right {
+    text-align: right;
 }
 
 .spacer {
-    height: 230px;
+    height: 160px;
+}
+
+.name {
+    font-size: 23px;
+    font-weight: bold;
+    font-family: "Verdana";
 }
 
 body {
-    background-color: #d9d9d9;
+    background-color: black;
 }

@@ -1,6 +1,7 @@
 var Header = require('./Header.react');
 var PersonalProjects = require('./PersonalProjects.react');
 var Internships = require('./Internships.react');
+var Coding = require('./Coding.react');
 var React = require('react');
 var NavigationStore = require('../stores/NavigationStore');
 var NavigationConstants = require('../constants/NavigationConstants');
@@ -33,6 +34,9 @@ var Website = React.createClass({
                 break;
             case NavigationConstants.INTERNSHIPS:
                 content = <Internships />;
+                break;
+            case NavigationConstants.CODING:
+                content = <Coding />;
                 break;
             default:
         }
