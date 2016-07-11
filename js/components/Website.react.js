@@ -39,7 +39,7 @@ var Website = React.createClass({
                 content = <Coding />;
                 break;
             case NavigationConstants.RESUME:
-                content = <div className="center"><embed src="photos/resume.pdf" width="700" height="1000" type='application/pdf' /></div>
+                content = <div className="center"><embed src="photos/resume.pdf" width="750" height="950" type='application/pdf' /></div>
                 break;
             default:
         }
