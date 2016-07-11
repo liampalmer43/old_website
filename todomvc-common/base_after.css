@@ -1,3 +1,7 @@
+.float_left {
+    float: left;
+}
+
 .blog_post {
     width: 750px;
     margin: auto;
@@ -10,6 +14,28 @@
 
 .blog {
     text-align: center;
+}
+
+.center {
+    text-align: center;
+}
+
+.menu_item {
+    height: 100px;
+    width: 80px;
+    margin: 5px;
+    text-align: center;
+}
+
+.menu_item_image {
+    max-width: 100%;
+    min-width: 100%;
+}
+
+.menu_item_text {
+    font-size: 10px;
+    font-weight: bold;
+    font-family: "Verdana";
 }
 
 .header {
