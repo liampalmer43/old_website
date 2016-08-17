@@ -20,7 +20,7 @@ var BlogPost = React.createClass({
                         <Image rounded className="blog_image" src={image_path} />
                     </Col>
                     <Col xs={6} sm={6} md={6} lg={6}>
-                        <p>{description}</p>
+                        <p className="text_justify">{description}</p>
                     </Col>
                 </Row>
             </Panel>

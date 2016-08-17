@@ -33,6 +33,7 @@ var MenuItem = React.createClass({
             <div className="menu_item float_left">
                 <Image src={image_path} className="menu_item_image" circle onClick={onclick}/>
                 <p className="menu_item_text">{title}</p>
+                { selected ? <div className="selector" /> : null }
             </div>
         );
     },

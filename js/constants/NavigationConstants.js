@@ -6,6 +6,7 @@ module.exports = keyMirror({
     INTERNSHIPS: null,
     CODING: null,
     RESUME: null,
+    REACT: null,
     // Actions
     CHANGE_STATE: null
 });

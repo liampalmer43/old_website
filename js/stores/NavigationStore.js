@@ -5,7 +5,7 @@ var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
-var state = NavigationConstants.HOME;
+var state = NavigationConstants.PERSONAL_PROJECTS;
 
 function update(new_state) {
     if (state !== new_state) {

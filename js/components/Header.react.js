@@ -28,23 +28,27 @@ var Header = React.createClass({
         NavigationActions.update(NavigationConstants.RESUME);
     },
 
+    _react: function() {
+    },
+
     render: function() {
         return (
             <div className="header">
                 <Row>
-                    <Col xs={4} sm={4} md={4} lg={4} className="header_left">
-                        <MenuItem state={NavigationConstants.PERSONAL_PROJECTS} image_path={'photos/Adventure.jpg'} title={'ADVENTURES'} onclick={this._personalProjects}/>
-                        <MenuItem state={NavigationConstants.INTERNSHIPS} image_path={'photos/Intern.jpg'} title={'INTERNSHIPS'} onclick={this._internships}/>
-                        <MenuItem state={NavigationConstants.CODING} image_path={'photos/Coding.jpg'} title={'CODING'} onclick={this._coding}/>
-                        <MenuItem state={NavigationConstants.RESUME} image_path={'photos/resume.jpg'} title={'RESUME'} onclick={this._resume}/>
-                    </Col>
-                    <Col xs={4} sm={4} md={4} lg={4} className="header_center">
+                    <Col xs={3} sm={3} md={3} lg={3} className="header_left">
                         <p className="name">Liam Palmer</p>
                         <h5><Glyphicon glyph="envelope" /> liampalmer43@gmail.com</h5>
                         <h5><Glyphicon glyph="globe" /> LinkedIn: liampalmer43</h5>
                         <h5><Glyphicon glyph="phone" /> GitHub: liampalmer43</h5>
                     </Col>
-                    <Col xs={4} sm={4} md={4} lg={4} className="header_right">
+                    <Col xs={6} sm={6} md={6} lg={6} className="header_center">
+                        <MenuItem state={NavigationConstants.PERSONAL_PROJECTS} image_path={'photos/Adventure.jpg'} title={'ADVENTURES'} onclick={this._personalProjects}/>
+                        <MenuItem state={NavigationConstants.INTERNSHIPS} image_path={'photos/Intern.jpg'} title={'INTERNSHIPS'} onclick={this._internships}/>
+                        <MenuItem state={NavigationConstants.CODING} image_path={'photos/Coding.jpg'} title={'CODING'} onclick={this._coding}/>
+                        <MenuItem state={NavigationConstants.RESUME} image_path={'photos/resume.jpg'} title={'RESUME'} onclick={this._resume}/>
+                        <MenuItem state={NavigationConstants.REACT} image_path={'photos/React.png'} title={'REACT'} onclick={this._react}/>
+                    </Col>
+                    <Col xs={3} sm={3} md={3} lg={3} className="header_right">
                         <h5>University of Waterloo <Glyphicon glyph="education" /></h5>
                         <h5>Computer Science <Glyphicon glyph="hand-left" /></h5>
                         <h5>Applied Mathematics <Glyphicon glyph="hand-left" /></h5>
