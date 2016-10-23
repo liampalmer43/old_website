@@ -31,9 +31,8 @@ var Idea = React.createClass({
 
     _initialPicture: function() {
         // Create an image holding the photo.
-        var image = new Image();//document.createElement('img');
+        var image = document.createElement('img');
         image.setAttribute('crossOrigin', 'anonymous');
-        image.crossorigin="anonymous";
         image.onload = function() {
             // Create a canvas that will be displayed in the DOM.
             var canvas = document.createElement('canvas');
@@ -71,7 +70,6 @@ var Idea = React.createClass({
 
                 // Send the base64 encoding of the photo to the model.
                 var dataURL = canvas.toDataURL("image/png");
-console.log(dataURL);
                 IdeaActions.sendImageData([name, dataURL]);
             };
             reader.readAsDataURL(input.files[0]);
