@@ -1,0 +1,22 @@
+.story_image {
+    width: 200px;
+}
+
+.group {
+    width: 600px;
+    max-width: 600px;
+    height: 350px;
+    max-height: 350px;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.center_button {
+    margin: auto;
+    display: block;
+}
+
+body {
+    background: #d9d9d9;
+}

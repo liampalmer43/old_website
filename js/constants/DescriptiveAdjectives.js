@@ -1,0 +1,27 @@
+var descriptiveAdjectives = [
+"red",
+"orange",
+"yellow",
+"green",
+"blue",
+"indego",
+"violet",
+"black",
+"grey",
+"gray",
+"white",
+"pink",
+"purple",
+"brown",
+"gold",
+"silver",
+"bronze",
+"round",
+"square",
+"light",
+"dark",
+"clear",
+"foggy",
+"wet"];
+
+module.exports = descriptiveAdjectives;

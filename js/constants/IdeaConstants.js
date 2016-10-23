@@ -4,5 +4,6 @@ module.exports = keyMirror({
     // Pages
     // PERSONAL_PROJECTS: null,
     // Actions
-    CREATE_STORY: null
+    GENERATE_STORY: null,
+    SEND_IMAGE: null
 });

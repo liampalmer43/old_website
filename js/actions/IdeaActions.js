@@ -2,10 +2,16 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var IdeaConstants = require('../constants/IdeaConstants');
 
 var IdeaActions = {
-    createStory: function(seed) {
+    generateStory: function(instance) {
         AppDispatcher.dispatch({
-            actionType: IdeaConstants.CREATE_STORY,
-            seed: seed
+            actionType: IdeaConstants.GENERATE_STORY,
+            instance: instance
+        });
+    },
+    sendImageData: function(imageData) {
+        AppDispatcher.dispatch({
+            actionType: IdeaConstants.SEND_IMAGE,
+            imageData: imageData
         });
     }
 };
