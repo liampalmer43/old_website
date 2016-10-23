@@ -37,8 +37,8 @@ var Idea = React.createClass({
 
                 // Create a canvas that will be displayed in the DOM.
                 var canvas = document.createElement('canvas');
-                canvas.width = 275;
-                canvas.height = 275;
+                canvas.width = 305;
+                canvas.height = 305;
                 var context = canvas.getContext('2d');
                 // Fit/scale the image to the canvas appropriately.
                 drawImageScaled(image, context);

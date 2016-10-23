@@ -24,8 +24,8 @@ var Group = React.createClass({
         var instance = this.props.instance;
 
         var displays = [];
-        for (var i = 0; i < stories.length; ++i) {
-            displays.push(<li key={i}>{stories[i]}</li>);
+        for (var i = 1; i < stories.length; ++i) {
+            displays.push(<li key={i} className="diminish">{stories[i]}</li>);
         }
         return (
             <Panel header={name} bsStyle="info" className="group">
@@ -36,8 +36,11 @@ var Group = React.createClass({
                     <Col xs={6} sm={6} md={6} lg={6}>
                         <Button className="center_button" onClick={this._generateStory.bind(this, instance)}>+</Button>
                         <hr />
-                        <ul>{displays}</ul>
-                        <p className="text_justify">{}</p>
+                        <div className="scroll_div">
+                            <p className="highlight">{stories[0]}</p>
+                            <hr hidden={stories.length === 0} />
+                            <ul>{displays}</ul>
+                        </div>
                     </Col>
                 </Row>
             </Panel>

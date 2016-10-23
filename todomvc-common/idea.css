@@ -3,18 +3,32 @@
 }
 
 .group {
-    width: 600px;
-    max-width: 600px;
-    height: 350px;
-    max-height: 350px;
+    width: 650px;
+    max-width: 650px;
+    height: 400px;
+    max-height: 400px;
     margin: auto;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .center_button {
     margin: auto;
     display: block;
+}
+
+.scroll_div {
+    height: 250px;
+    overflow: scroll;
+}
+
+.highlight {
+    font-weight: bold;
+    text-align: justify;
+}
+
+.diminish {
+    font-color: #bfbfbf;
 }
 
 body {

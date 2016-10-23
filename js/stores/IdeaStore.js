@@ -103,11 +103,7 @@ function generateStory(instance) {
     var properNouns = getMatchingAndExtend([], ProperNouns, 15);
     var adjectives = getMatchingAndExtend(association, PositiveAdjectives.concat(NegativeAdjectives.concat(DescriptiveAdjectives)), 20);
     var verbs = getRelatedMatchingAndExtend(association, IngVerbs, PastVerbs, 20);
-console.log(association);
-console.log(nouns);
-console.log(properNouns);
-console.log(adjectives);
-console.log(verbs)
+
     // Controlled iterators.
     var nI = 0;
     var pnI = 0;
@@ -154,7 +150,7 @@ console.log(verbs)
         }
         // Convert "a" to "an" as necessary.
         for (var i = 0; i < sentence.length; ++i) {
-            if (sentence[i] === "a" && isVowel(sentence[i+1])) {
+            if (sentence[i] === "a" && isVowel(sentence[i+1].charAt(0))) {
                 sentence[i] = "an";
             }
         }
@@ -163,7 +159,7 @@ console.log(verbs)
         result = result.charAt(0).toUpperCase() + result.slice(1);
         sentences.push(result);
     }
-    state[instance]["stories"].push(sentences.join("  "));
+    state[instance]["stories"].unshift(sentences.join("  "));
     IdeaStore.emitChange();
 }
 
@@ -205,9 +201,12 @@ function getRelatedVerb(association) {
 // prepositionPhrase    -> preposition subject
 // preposition          -> ...
 
+// *** We also add FPsubject for a subject that "follows a predicate". ***
+
 var grammar = {
     sentence: [ ["subject", "predicate"] ],
     subject: [ ["proNoun"], ["properNoun"], ["determiner", "descriptiveNoun"] ],
+    FPsubject: [ ["properNoun"], ["determiner", "descriptiveNoun"] ],
     proNoun: [ ["proNoun" ] ],
     properNoun: [ ["properNoun"] ],
     determiner: [ ["determiner"] ],
@@ -216,13 +215,14 @@ var grammar = {
     noun: [ ["noun"] ],
     predicate: [ ["verb"], ["verb", "subject"], ["verb", "subject", "prepositionPhrase"] ],
     verb: [ ["verb"] ],
-    prepositionPhrase: [ ["preposition", "subject"] ],
+    prepositionPhrase: [ ["preposition", "FPsubject"] ],
     proposition: [ ["preposition"] ]
 }
 
 var initialRuleUses = {
     sentence: 0,
     subject: 0,
+    FPsubject: 0,
     proNoun: 0,
     properNoun: 0,
     determiner: 0,
@@ -263,7 +263,13 @@ function generateStructure() {
             var choice;
             switch(type) {
                 case "subject":
-                    choice = uses === 0 ? getRandom(options) : getWeightedRandom(options, [1, 2, 2]);
+                    choice = uses === 0 ? getRandom(options) : getWeightedRandom(options, [1, 1, 2, 2, 2, 2, 2]);
+                    break;
+                case "descriptiveNoun":
+                    choice = uses < 4 ? getRandom(options) : options[1];
+                    break;
+                case "predicate":
+                    choice = options[2];
                     break;
                 default:
                     choice = getRandom(options);
