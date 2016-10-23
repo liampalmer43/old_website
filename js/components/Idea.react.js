@@ -117,16 +117,18 @@ var Idea = React.createClass({
                 <div className="customizer">
                     <Row>
                         <Col xs={4} sm={4} md={4} lg={4}>
-                            <input id="storyInput" type="file" onChange={this._newPicture} />
+                            <input id="storyInput" type="file" onChange={this._newPicture} name="INPUT" />
                         </Col>
                         <Col xs={4} sm={4} md={4} lg={4}>
-                            <p className="title">Pictogram!</p>
+                            <p className="title">PictoStory!</p>
                         </Col>
-                        <Col xs={4} sm={4} md={4} lg={4}>
+                        <Col xs={2} sm={2} md={2} lg={2}>
+                        </Col>
+                        <Col xs={2} sm={2} md={2} lg={2}>
                             <ButtonToolbar>
-                                <ButtonGroup className="float_right">
-                                    <Button onClick={this._gangster} bsStyle={gangster ? "primary" : "danger"}><Glyphicon glyph="cd" /></Button>
-                                    <Button onClick={this._template} bsStyle={template ? "primary" : "danger"}><Glyphicon glyph="road" /></Button>
+                                <ButtonGroup>
+                                    <Button className="float_right" onClick={this._gangster} bsStyle={gangster ? "primary" : "danger"}><Glyphicon glyph="cd" /></Button>
+                                    <Button className="float_right" onClick={this._template} bsStyle={template ? "primary" : "danger"}><Glyphicon glyph="road" /></Button>
                                 </ButtonGroup>
                             </ButtonToolbar>
                         </Col>

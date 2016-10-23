@@ -32,6 +32,17 @@ function getRandom(array) {
     return array[Math.floor(Math.random() * array.length)];
 }
 
+function scramble(array) {
+    for (var i = 0; i < 15; ++i) {
+        var index1 = Math.floor(Math.random() * array.length);
+        var index2 = Math.floor(Math.random() * array.length);
+        var temp = array[index1];
+        array[index1] = array[index2];
+        array[index2] = temp;
+    }
+    return array;
+}
+
 function isVowel(letter) {
     return letter === "a" || letter === "e" || letter === "i" || letter === "o" || letter === "u";
 }
@@ -188,6 +199,12 @@ function generateStory(instance) {
         adjectives = getMatchingAndExtend(association, PositiveAdjectives.concat(NegativeAdjectives.concat(DescriptiveAdjectives)), 20);
     }
     var verbs = getRelatedMatchingAndExtend(association, IngVerbs, PastVerbs, 20);
+
+    // Some mixing.
+    nouns = scramble(nouns);
+    adjectives = scramble(adjectives);
+    verbs = scramble(verbs);
+
     // Controlled iterators.
     var nI = 0;
     var pnI = 0;
@@ -198,7 +215,13 @@ function generateStory(instance) {
     var volume = 3;
     var sentences = [];
     for (var v = 0; v < volume; ++v) {
-        var structure = generateStructure();
+        var structure;
+        if (template) {
+            var pick = getRandom(Templates);
+            structure = pick.split(" "); 
+        } else {
+            structure = generateStructure();
+        }
         // We have reduced the problem to finding related words of type:
         // - proNoun, properNoun, determiner, adjective, noun, verb, preposition
         var sentence = [];
@@ -230,6 +253,9 @@ function generateStory(instance) {
                     vI = (vI + 1) % verbs.length;
                     break;
                 default:
+                    // In the case it is an actual word.
+                    sentence.push(structure[i]);
+                    break;
             }
         }
         // Convert "a" to "an" as necessary.
@@ -336,7 +362,7 @@ var determiners = ["the", "a", "this", "that", "my", "your", "his", "her", "our"
 var prepositions = ["from", "to", "on", "near", "above", "across", "among", "behind", "below", "beyond"];
 // For the gangster feature:
 var greetings = ["yo dawg, ", "sup bro, ", "what's up homie, ", "wassup, "];
-var terminals = [", you know what I'm saying?", ", straight up", ", ya feel me"];
+var terminals = [", you know what I'm saying", ", straight up", ", ya feel me"];
 
 function getWeightedRandom(options, weights) {
     return options[weights[Math.floor(Math.random() * weights.length)]];
