@@ -78,6 +78,9 @@ var pastVerbs = [
 "covered",
 "chose",
 "drew",
-"focused"];
+"focused",
+"smiled",
+"held",
+"wore"];
 
 module.exports = pastVerbs;

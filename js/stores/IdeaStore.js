@@ -46,8 +46,10 @@ function sendImage(imageData) {
         name: name,
         dataURL: dataURL,
         association: [],
+        emotions: {},
         stories: [],
-        emotions: {}
+        visionAPI: false,
+        emotionAPI: false
     };
     state.unshift(group);
     computerVisionAPI(image);
@@ -64,6 +66,7 @@ function computerVisionAPI(image) {
             var association = response["description"]["tags"];
             alert(association.join());
             state[0]["association"] = association;
+            state[0]["visionAPI"] = true;
             IdeaStore.emitChange();
         }
     }
@@ -83,6 +86,7 @@ function emotionAPI(image) {
             if (response.length > 0) {
                 var scores = response[0]["scores"];
                 state[0]["emotions"] = scores;
+                state[0]["emotionAPI"] = true;
                 IdeaStore.emitChange();
             }
         }
@@ -123,14 +127,57 @@ function getRelatedMatchingAndExtend(set, dict1, dict2, length) {
     return matching;
 }
 
+function extractEmotion(emotions) {
+    // 0 for positive, 1 for negative, 2 for neutral
+    var feelings = Object.keys(emotions);
+    if (feelings.length === 0) {
+        return 2;
+    }
+    var positiveEmotions = ["happiness", "surprise"];
+    var negativeEmotions = ["anger", "contempt", "disgust", "fear", "sadness"];
+    var neutralEmotions = ["neutral"];
+    var posS = 0.0;
+    var negS = 0.0;
+    var neuS = 0.0;
+    for (var i = 0; i < feelings.length; ++i) {
+        if (positiveEmotions.indexOf(feelings[i]) !== -1) {
+            posS += emotions[feelings[i]];
+        } else if (negativeEmotions.indexOf(feelings[i]) !== -1) {
+            negS += emotions[feelings[i]];
+        } else if (neutralEmotions.indexOf(feelings[i]) !== -1) {
+            neuS += emotions[feelings[i]];
+        } else {
+            alert("Unregistered emotion" + feelings[i]);
+        }
+    }
+    if (neuS >= posS && neuS >= negS) {
+        return 2;
+    } else if (posS >= negS) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
 function generateStory(instance) {
     var association = state[instance]["association"];
+    var emotions = state[instance]["emotions"];
 
     var nouns = getMatchingAndExtend(association, Nouns, 25);
     var properNouns = getMatchingAndExtend([], ProperNouns, 15);
-    var adjectives = getMatchingAndExtend(association, PositiveAdjectives.concat(NegativeAdjectives.concat(DescriptiveAdjectives)), 20);
+    var adjectives;
+    var emotion = extractEmotion(emotions);
+console.log(emotion);
+    if (emotion === 0) {
+        adjectives = getMatchingAndExtend(association, PositiveAdjectives.concat(DescriptiveAdjectives), 20);
+    } else if (emotion === 1) {
+        adjectives = getMatchingAndExtend(association, NegativeAdjectives.concat(DescriptiveAdjectives), 20);
+    } else {
+        adjectives = getMatchingAndExtend(association, PositiveAdjectives.concat(NegativeAdjectives.concat(DescriptiveAdjectives)), 20);
+    }
     var verbs = getRelatedMatchingAndExtend(association, IngVerbs, PastVerbs, 20);
-
+console.log("ADD");
+console.log(adjectives);
     // Controlled iterators.
     var nI = 0;
     var pnI = 0;
@@ -229,7 +276,7 @@ function getRelatedVerb(association) {
 // preposition          -> ...
 
 // *** We also add FPsubject for a subject that "follows a predicate". ***
-
+// *** We also add nextNoun to add some more adjectives. ***
 var grammar = {
     sentence: [ ["subject", "predicate"] ],
     subject: [ ["proNoun"], ["properNoun"], ["determiner", "descriptiveNoun"] ],
@@ -237,7 +284,8 @@ var grammar = {
     proNoun: [ ["proNoun" ] ],
     properNoun: [ ["properNoun"] ],
     determiner: [ ["determiner"] ],
-    descriptiveNoun: [ ["adjective", "descriptiveNoun"], ["noun"] ],
+    descriptiveNoun: [ ["adjective", "nextNoun"] ],
+    nextNoun: [ ["adjective", "nextNoun"], ["noun"] ],
     adjective: [ ["adjective"] ],
     noun: [ ["noun"] ],
     predicate: [ ["verb"], ["verb", "subject"], ["verb", "subject", "prepositionPhrase"] ],
@@ -254,6 +302,7 @@ var initialRuleUses = {
     properNoun: 0,
     determiner: 0,
     descriptiveNoun: 0,
+    nextNoun: 0,
     adjective: 0,
     noun: 0,
     predicate: 0,
@@ -292,8 +341,8 @@ function generateStructure() {
                 case "subject":
                     choice = uses === 0 ? getRandom(options) : getWeightedRandom(options, [1, 1, 2, 2, 2, 2, 2]);
                     break;
-                case "descriptiveNoun":
-                    choice = uses < 4 ? getRandom(options) : options[1];
+                case "nextNoun":
+                    choice = getWeightedRandom(options, [0, 0, 1, 1, 1]);
                     break;
                 case "predicate":
                     choice = options[2];
@@ -316,6 +365,7 @@ function generateStructure() {
             break;
         }
     } 
+console.log(currentStructure);
     return currentStructure;
 }
 

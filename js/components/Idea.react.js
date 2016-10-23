@@ -97,7 +97,8 @@ var Idea = React.createClass({
         var displays = [];
         for (var i = 0; i < groups.length; ++i) {
             displays.push(
-            <Group key={i} instance={i} name={groups[i]["name"]} dataURL={groups[i]["dataURL"]} association={groups[i]["association"]} stories={groups[i]["stories"]} />);
+            <Group key={i} instance={i} name={groups[i]["name"]} dataURL={groups[i]["dataURL"]} association={groups[i]["association"]}
+                   stories={groups[i]["stories"]} emotions={groups[i]["emotions"]} visionAPI={groups[i]["visionAPI"]} emotionAPI={groups[i]["emotionAPI"]} />);
         }
         return (
             <div>

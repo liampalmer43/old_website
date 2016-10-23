@@ -78,6 +78,9 @@ var ingVerbs = [
 "covering",
 "choosing",
 "drawing",
-"focusing"];
+"focusing",
+"smiling",
+"holding",
+"wearing"];
 
 module.exports = ingVerbs;

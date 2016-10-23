@@ -22,6 +22,10 @@ var descriptiveAdjectives = [
 "dark",
 "clear",
 "foggy",
-"wet"];
+"wet",
+"large",
+"small",
+"little",
+"tiny"];
 
 module.exports = descriptiveAdjectives;

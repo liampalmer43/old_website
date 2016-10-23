@@ -20,6 +20,9 @@ var Group = React.createClass({
         var name = this.props.name;
         var dataURL = this.props.dataURL;
         var association = this.props.association;
+        var emotions = this.props.emotions;
+        var visionAPI = this.props.visionAPI;
+        var emotionAPI = this.props.emotionAPI;
         var stories = this.props.stories;
         var instance = this.props.instance;
         
