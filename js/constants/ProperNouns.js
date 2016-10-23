@@ -13,6 +13,15 @@ var properNouns  = [
 "Brazil",
 "Thailand",
 "Singapore",
-"the USA"];
+"the USA",
+"Barack Obama",
+"Justin",
+"Facebook",
+"Canada",
+"Belgium",
+"Norway",
+"Brazil",
+"Peru",
+"the Indian Ocean"];
 
 module.exports = properNouns;
