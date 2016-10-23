@@ -42,6 +42,19 @@ function sendImage(imageData) {
     var name = imageData[0];
     var dataURL = imageData[1];
     var image = convertDataURIToBinary(dataURL);
+    var group = {
+        name: name,
+        dataURL: dataURL,
+        association: [],
+        stories: [],
+        emotions: {}
+    };
+    state.unshift(group);
+    computerVisionAPI(image);
+    emotionAPI(image);
+}
+
+function computerVisionAPI(image) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "https://api.projectoxford.ai/vision/v1.0/analyze?visualFeatures=Description&subscription-key=9f29dc017074487e9150b2265d8e39aa", true);
     xhr.setRequestHeader("Content-type", "application/octet-stream");
@@ -50,14 +63,28 @@ function sendImage(imageData) {
             var response = JSON.parse(xhr.responseText);
             var association = response["description"]["tags"];
             alert(association.join());
-            var group = {
-                name: name,
-                dataURL: dataURL,
-                association: association,
-                stories: []
-            };
-            state.unshift(group);
+            state[0]["association"] = association;
             IdeaStore.emitChange();
+        }
+    }
+    xhr.send(image);
+}
+
+function emotionAPI(image) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://api.projectoxford.ai/emotion/v1.0/recognize", true);
+    xhr.setRequestHeader("Content-type", "application/octet-stream");
+    xhr.setRequestHeader("Ocp-Apim-Subscription-Key", "ac048eb2f682492a8194b2e56af29e20");
+    xhr.onreadystatechange = function(e) {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var response = JSON.parse(xhr.responseText);
+            console.log(response);
+            alert("Got emotion");
+            if (response.length > 0) {
+                var scores = response[0]["scores"];
+                state[0]["emotions"] = scores;
+                IdeaStore.emitChange();
+            }
         }
     }
     xhr.send(image);
@@ -316,9 +343,7 @@ AppDispatcher.register(function(action) {
 
     switch(action.actionType) {
         case IdeaConstants.GENERATE_STORY:
-            console.log("STORE");
             generateStory(action.instance);
-            console.log("DONE");
             break;
         case IdeaConstants.SEND_IMAGE:
             sendImage(action.imageData);

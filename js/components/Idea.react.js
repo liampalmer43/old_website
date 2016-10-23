@@ -6,6 +6,9 @@ var IdeaActions = require('../actions/IdeaActions');
 var Button = require('react-bootstrap/lib/Button');
 var ButtonGroup = require('react-bootstrap/lib/ButtonGroup');
 var ButtonToolbar = require('react-bootstrap/lib/ButtonToolbar');
+var Glyphicon = require('react-bootstrap/lib/Glyphicon');
+var Col = require('react-bootstrap/lib/Col');
+var Row = require('react-bootstrap/lib/Row');
 
 var Group = require('./Group.react');
 
@@ -99,7 +102,21 @@ var Idea = React.createClass({
         return (
             <div>
                 <div className="customizer">
-                    <input id="storyInput" type="file" onChange={this._newPicture} />
+                    <Row>
+                        <Col xs={6} sm={6} md={6} lg={6}>
+                            <input id="storyInput" type="file" onChange={this._newPicture} />
+                        </Col>
+                        <Col xs={6} sm={6} md={6} lg={6}>
+                            <ButtonToolbar>
+                                <ButtonGroup>
+                                    <Button><Glyphicon glyph="cd" /></Button>
+                                    <Button>2</Button>
+                                    <Button>3</Button>
+                                    <Button>4</Button>
+                                </ButtonGroup>
+                            </ButtonToolbar>
+                        </Col>
+                    </Row>
                 </div>
                 <div>{displays}</div>
             </div>

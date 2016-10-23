@@ -32,8 +32,9 @@
 }
 
 .customizer {
-    height: 50px;
-    background-color: #ff99cc;
+    height: 60px;
+    padding: 5px;
+    background-color: #ffbf80;
 }
 
 body {
