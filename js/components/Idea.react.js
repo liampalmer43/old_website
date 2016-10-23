@@ -15,7 +15,8 @@ var Group = require('./Group.react');
 function getState() {
     return {
         groups: IdeaStore.getState(),
-        gangster: IdeaStore.getGangster()
+        gangster: IdeaStore.getGangster(),
+        template: IdeaStore.getTemplate()
     };
 }
 
@@ -84,6 +85,10 @@ var Idea = React.createClass({
         IdeaActions.setGangster(!this.state.gangster);
     },
 
+    _template: function() {
+        IdeaActions.setTemplate(!this.state.template);
+    },
+
     getInitialState: function() {
         return getState();
     },
@@ -100,6 +105,7 @@ var Idea = React.createClass({
     render: function() {
         var groups = this.state.groups;
         var gangster = this.state.gangster;
+        var template = this.state.template;
         var displays = [];
         for (var i = 0; i < groups.length; ++i) {
             displays.push(
@@ -110,16 +116,17 @@ var Idea = React.createClass({
             <div>
                 <div className="customizer">
                     <Row>
-                        <Col xs={6} sm={6} md={6} lg={6}>
+                        <Col xs={4} sm={4} md={4} lg={4}>
                             <input id="storyInput" type="file" onChange={this._newPicture} />
                         </Col>
-                        <Col xs={6} sm={6} md={6} lg={6}>
+                        <Col xs={4} sm={4} md={4} lg={4}>
+                            <p className="title">Pictogram!</p>
+                        </Col>
+                        <Col xs={4} sm={4} md={4} lg={4}>
                             <ButtonToolbar>
-                                <ButtonGroup>
+                                <ButtonGroup className="float_right">
                                     <Button onClick={this._gangster} bsStyle={gangster ? "primary" : "danger"}><Glyphicon glyph="cd" /></Button>
-                                    <Button>2</Button>
-                                    <Button>3</Button>
-                                    <Button>4</Button>
+                                    <Button onClick={this._template} bsStyle={template ? "primary" : "danger"}><Glyphicon glyph="road" /></Button>
                                 </ButtonGroup>
                             </ButtonToolbar>
                         </Col>

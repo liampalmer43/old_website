@@ -6,5 +6,6 @@ module.exports = keyMirror({
     // Actions
     GENERATE_STORY: null,
     SEND_IMAGE: null,
-    SET_GANGSTER: null
+    SET_GANGSTER: null,
+    SET_TEMPLATE: null
 });

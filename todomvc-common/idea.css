@@ -23,6 +23,16 @@
     margin-bottom: -7px;
 }
 
+.float_right {
+    float: right;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 55;
+    text-align: center;
+}
+
 .scroll_div {
     height: 250px;
     overflow: scroll;
@@ -39,7 +49,7 @@
 
 .customizer {
     height: 60px;
-    padding: 5px;
+    padding-top: 11px;
     background-color: #ffbf80;
 }
 

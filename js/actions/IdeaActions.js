@@ -19,6 +19,12 @@ var IdeaActions = {
             actionType: IdeaConstants.SET_GANGSTER,
             gangster: gangster
         });
+    },
+    setTemplate: function(template) {
+        AppDispatcher.dispatch({
+            actionType: IdeaConstants.SET_TEMPLATE,
+            template: template
+        });
     }
 };
 

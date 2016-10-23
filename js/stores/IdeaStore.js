@@ -10,14 +10,21 @@ var NegativeAdjectives = require('../constants/NegativeAdjectives');
 var DescriptiveAdjectives = require('../constants/DescriptiveAdjectives');
 var PastVerbs = require('../constants/PastVerbs');
 var IngVerbs = require('../constants/IngVerbs');
+var Templates = require('../constants/Templates');
 
 var CHANGE_EVENT = 'change';
 
 var state = [];
 var gangster = false;
+var template = false;
 
 function setGangster(g) {
     gangster = g;
+    IdeaStore.emitChange();
+}
+
+function setTemplate(t) {
+    template = t;
     IdeaStore.emitChange();
 }
 
@@ -393,6 +400,10 @@ var IdeaStore = assign({}, EventEmitter.prototype, {
         return gangster;
     },
 
+    getTemplate: function() {
+        return template;
+    },
+
     emitChange: function() {
         this.emit(CHANGE_EVENT);
     },
@@ -418,6 +429,9 @@ AppDispatcher.register(function(action) {
             break;
         case IdeaConstants.SET_GANGSTER:
             setGangster(action.gangster);
+            break;
+        case IdeaConstants.SET_TEMPLATE:
+            setTemplate(action.template);
             break;
         default:
     }
