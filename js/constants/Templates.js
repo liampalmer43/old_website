@@ -6,7 +6,7 @@ var templates = [
 "noun noun - wherefore art thou",
 "now is the adjective noun of our adjective noun",
 "properNoun verb and verb quite suddenly, for the adjective circustances forbid us to look back",
-"what must we do but verb and verb in search of our adjective selves",
+"what must we do but release the adjective noun in search of our adjective selves",
 "it is quite the anomaly that the adjective noun is neither adjective nor adjective",
 "one can be adjective and adjective but never adjective too",
 "if you had verb us, we would have verb",
