@@ -14,7 +14,8 @@ var Group = require('./Group.react');
 
 function getState() {
     return {
-        groups: IdeaStore.getState()
+        groups: IdeaStore.getState(),
+        gangster: IdeaStore.getGangster()
     };
 }
 
@@ -79,6 +80,10 @@ var Idea = React.createClass({
         }
     },
 
+    _gangster: function() {
+        IdeaActions.setGangster(!this.state.gangster);
+    },
+
     getInitialState: function() {
         return getState();
     },
@@ -94,6 +99,7 @@ var Idea = React.createClass({
 
     render: function() {
         var groups = this.state.groups;
+        var gangster = this.state.gangster;
         var displays = [];
         for (var i = 0; i < groups.length; ++i) {
             displays.push(
@@ -110,7 +116,7 @@ var Idea = React.createClass({
                         <Col xs={6} sm={6} md={6} lg={6}>
                             <ButtonToolbar>
                                 <ButtonGroup>
-                                    <Button><Glyphicon glyph="cd" /></Button>
+                                    <Button onClick={this._gangster} bsStyle={gangster ? "primary" : "danger"}><Glyphicon glyph="cd" /></Button>
                                     <Button>2</Button>
                                     <Button>3</Button>
                                     <Button>4</Button>

@@ -7,6 +7,7 @@ var Panel = require('react-bootstrap/lib/Panel');
 var Button = require('react-bootstrap/lib/Button');
 var ButtonGroup = require('react-bootstrap/lib/ButtonGroup');
 var ButtonToolbar = require('react-bootstrap/lib/ButtonToolbar');
+var Glyphicon = require('react-bootstrap/lib/Glyphicon');
 
 var Image = require('react-bootstrap/lib/Image');
 var IdeaActions = require('../actions/IdeaActions');
@@ -26,6 +27,18 @@ var Group = React.createClass({
         var stories = this.props.stories;
         var instance = this.props.instance;
         
+        var glyphs = [];
+        if (visionAPI) {
+            glyphs.push(<Glyphicon glyph="eye-open" key={1} />);
+        } else {
+            glyphs.push(<Glyphicon glyph="remove" key={1} />);
+        }
+        if (emotionAPI) {
+            glyphs.push(<Glyphicon glyph="heart" key={2} />);
+        } else {
+            glyphs.push(<Glyphicon glyph="remove" key={2} />);
+        }
+        
         var displays = [];
         for (var i = 1; i < stories.length; ++i) {
             displays.push(<li key={i} className="diminish">{stories[i]}</li>);
@@ -38,6 +51,7 @@ var Group = React.createClass({
                     </Col>
                     <Col xs={6} sm={6} md={6} lg={6}>
                         <Button className="center_button" onClick={this._generateStory.bind(this, instance)}>+</Button>
+                        <div className="center_content">{glyphs}</div>
                         <hr />
                         <div className="scroll_div">
                             <p className="highlight">{stories[0]}</p>

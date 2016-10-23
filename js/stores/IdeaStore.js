@@ -14,6 +14,12 @@ var IngVerbs = require('../constants/IngVerbs');
 var CHANGE_EVENT = 'change';
 
 var state = [];
+var gangster = false;
+
+function setGangster(g) {
+    gangster = g;
+    IdeaStore.emitChange();
+}
 
 function getRandom(array) {
     return array[Math.floor(Math.random() * array.length)];
@@ -52,6 +58,7 @@ function sendImage(imageData) {
         emotionAPI: false
     };
     state.unshift(group);
+    IdeaStore.emitChange();
     computerVisionAPI(image);
     emotionAPI(image);
 }
@@ -64,11 +71,11 @@ function computerVisionAPI(image) {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var response = JSON.parse(xhr.responseText);
             var association = response["description"]["tags"];
-            alert(association.join());
+            // alert(association.join());
             state[0]["association"] = association;
-            state[0]["visionAPI"] = true;
-            IdeaStore.emitChange();
         }
+        state[0]["visionAPI"] = true;
+        IdeaStore.emitChange();
     }
     xhr.send(image);
 }
@@ -81,14 +88,13 @@ function emotionAPI(image) {
     xhr.onreadystatechange = function(e) {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var response = JSON.parse(xhr.responseText);
-            console.log(response);
-            alert("Got emotion");
+            // alert("Got emotion");
             if (response.length > 0) {
                 var scores = response[0]["scores"];
                 state[0]["emotions"] = scores;
-                state[0]["emotionAPI"] = true;
-                IdeaStore.emitChange();
             }
+            state[0]["emotionAPI"] = true;
+            IdeaStore.emitChange();
         }
     }
     xhr.send(image);
@@ -167,7 +173,6 @@ function generateStory(instance) {
     var properNouns = getMatchingAndExtend([], ProperNouns, 15);
     var adjectives;
     var emotion = extractEmotion(emotions);
-console.log(emotion);
     if (emotion === 0) {
         adjectives = getMatchingAndExtend(association, PositiveAdjectives.concat(DescriptiveAdjectives), 20);
     } else if (emotion === 1) {
@@ -176,8 +181,6 @@ console.log(emotion);
         adjectives = getMatchingAndExtend(association, PositiveAdjectives.concat(NegativeAdjectives.concat(DescriptiveAdjectives)), 20);
     }
     var verbs = getRelatedMatchingAndExtend(association, IngVerbs, PastVerbs, 20);
-console.log("ADD");
-console.log(adjectives);
     // Controlled iterators.
     var nI = 0;
     var pnI = 0;
@@ -229,6 +232,15 @@ console.log(adjectives);
             }
         }
         var result = sentence.join(" ");
+        // Handle the gangster functionality.
+        if (gangster) {
+            if (v === 0) {
+                result = getRandom(greetings) + result;
+            }
+            if (v === volume - 1) {
+                result += getRandom(terminals);
+            }
+        }
         result += ".";
         result = result.charAt(0).toUpperCase() + result.slice(1);
         sentences.push(result);
@@ -276,7 +288,7 @@ function getRelatedVerb(association) {
 // preposition          -> ...
 
 // *** We also add FPsubject for a subject that "follows a predicate". ***
-// *** We also add nextNoun to add some more adjectives. ***
+// *** We also add nextNoun to control adjectives. ***
 var grammar = {
     sentence: [ ["subject", "predicate"] ],
     subject: [ ["proNoun"], ["properNoun"], ["determiner", "descriptiveNoun"] ],
@@ -285,7 +297,7 @@ var grammar = {
     properNoun: [ ["properNoun"] ],
     determiner: [ ["determiner"] ],
     descriptiveNoun: [ ["adjective", "nextNoun"] ],
-    nextNoun: [ ["adjective", "nextNoun"], ["noun"] ],
+    nextNoun: [ ["adjective", "noun"], ["noun"] ],
     adjective: [ ["adjective"] ],
     noun: [ ["noun"] ],
     predicate: [ ["verb"], ["verb", "subject"], ["verb", "subject", "prepositionPhrase"] ],
@@ -315,6 +327,9 @@ var bases = ["proNoun", "properNoun", "determiner", "noun", "verb", "preposition
 var proNouns = ["I", "he", "she", "one", "they", "it", "you"];
 var determiners = ["the", "a", "this", "that", "my", "your", "his", "her", "our", "any"];
 var prepositions = ["from", "to", "on", "near", "above", "across", "among", "behind", "below", "beyond"];
+// For the gangster feature:
+var greetings = ["yo dawg, ", "sup bro, ", "what's up homie, ", "wassup, "];
+var terminals = [", you know what I'm saying?", ", straight up", ", ya feel me"];
 
 function getWeightedRandom(options, weights) {
     return options[weights[Math.floor(Math.random() * weights.length)]];
@@ -365,7 +380,6 @@ function generateStructure() {
             break;
         }
     } 
-console.log(currentStructure);
     return currentStructure;
 }
 
@@ -373,6 +387,10 @@ var IdeaStore = assign({}, EventEmitter.prototype, {
 
     getState: function() {
         return state;
+    },
+
+    getGangster: function() {
+        return gangster;
     },
 
     emitChange: function() {
@@ -397,6 +415,9 @@ AppDispatcher.register(function(action) {
             break;
         case IdeaConstants.SEND_IMAGE:
             sendImage(action.imageData);
+            break;
+        case IdeaConstants.SET_GANGSTER:
+            setGangster(action.gangster);
             break;
         default:
     }

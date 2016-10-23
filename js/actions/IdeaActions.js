@@ -13,6 +13,12 @@ var IdeaActions = {
             actionType: IdeaConstants.SEND_IMAGE,
             imageData: imageData
         });
+    },
+    setGangster: function(gangster) {
+        AppDispatcher.dispatch({
+            actionType: IdeaConstants.SET_GANGSTER,
+            gangster: gangster
+        });
     }
 };
 
