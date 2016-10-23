@@ -4,6 +4,12 @@ var IdeaConstants = require('../constants/IdeaConstants');
 var assign = require('object-assign');
 
 var Nouns = require('../constants/Nouns');
+var ProperNouns = require('../constants/ProperNouns');
+var PositiveAdjectives = require('../constants/PositiveAdjectives');
+var NegativeAdjectives = require('../constants/NegativeAdjectives');
+var DescriptiveAdjectives = require('../constants/DescriptiveAdjectives');
+var PastVerbs = require('../constants/PastVerbs');
+var IngVerbs = require('../constants/IngVerbs');
 
 var CHANGE_EVENT = 'change';
 
@@ -57,49 +63,107 @@ function sendImage(imageData) {
     xhr.send(image);
 }
 
+function getMatchingAndExtend(set, dictionary, length) {
+    var matching = [];
+    for (var i = 0; i < set.length; ++i) {
+        if (dictionary.indexOf(set[i]) !== -1) {
+            matching.push(set[i]);
+        }
+    }
+    while (matching.length < length) {
+        var another = getRandom(dictionary);
+        if (matching.indexOf(another) === -1) {
+            matching.push(another);
+        }
+    }
+    return matching;
+}
+
+function getRelatedMatchingAndExtend(set, dict1, dict2, length) {
+    var matching = [];
+    for (var i = 0; i < set.length; ++i) {
+        var index = dict1.indexOf(set[i]);
+        if (index !== -1) {
+            matching.push(dict2[index]);
+        }
+    }
+    while (matching.length < length) {
+        var another = getRandom(dict2);
+        if (matching.indexOf(another) === -1) {
+            matching.push(another);
+        }
+    }
+    return matching;
+}
+
 function generateStory(instance) {
     var association = state[instance]["association"];
-    var structure = generateStructure();
-    // We have reduced the problem to finding related words of type:
-    // - proNoun, properNoun, determiner, adjective, noun, verb, preposition
-    var sentence = [];
-    for (var i = 0; i < structure.length; ++i) {
-        switch(structure[i]) {
-            case "proNoun":
-                sentence.push(getRandom(proNouns));
-                break;
-            case "determiner":
-                sentence.push(getRandom(determiners));
-                break;
-            case "preposition":
-                sentence.push(getRandom(prepositions));
-                break;
-            case "properNoun":
-                sentence.push(getRelatedProperNoun(association));
-                break;
-            case "adjective":
-                sentence.push(getRelatedAdjective(association));
-                break;
-            case "noun":
-                sentence.push(getRelatedNoun(association));
-                break;
-            case "verb":
-                sentence.push(getRelatedVerb(association));
-                break;
-            default:
+
+    var nouns = getMatchingAndExtend(association, Nouns, 25);
+    var properNouns = getMatchingAndExtend([], ProperNouns, 15);
+    var adjectives = getMatchingAndExtend(association, PositiveAdjectives.concat(NegativeAdjectives.concat(DescriptiveAdjectives)), 20);
+    var verbs = getRelatedMatchingAndExtend(association, IngVerbs, PastVerbs, 20);
+console.log(association);
+console.log(nouns);
+console.log(properNouns);
+console.log(adjectives);
+console.log(verbs)
+    // Controlled iterators.
+    var nI = 0;
+    var pnI = 0;
+    var aI = 0;
+    var vI = 0;
+
+    // The number of sentences to produce in a story.
+    var volume = 3;
+    var sentences = [];
+    for (var v = 0; v < volume; ++v) {
+        var structure = generateStructure();
+        // We have reduced the problem to finding related words of type:
+        // - proNoun, properNoun, determiner, adjective, noun, verb, preposition
+        var sentence = [];
+        for (var i = 0; i < structure.length; ++i) {
+            switch(structure[i]) {
+                case "proNoun":
+                    sentence.push(getRandom(proNouns));
+                    break;
+                case "determiner":
+                    sentence.push(getRandom(determiners));
+                    break;
+                case "preposition":
+                    sentence.push(getRandom(prepositions));
+                    break;
+                case "properNoun":
+                    sentence.push(properNouns[pnI]);
+                    pnI = (pnI + 1) % properNouns.length;
+                    break;
+                case "adjective":
+                    sentence.push(adjectives[aI]);
+                    aI = (aI + 1) % adjectives.length;
+                    break;
+                case "noun":
+                    sentence.push(nouns[nI]);
+                    nI = (nI + 1) % nouns.length;
+                    break;
+                case "verb":
+                    sentence.push(verbs[vI]);
+                    vI = (vI + 1) % verbs.length;
+                    break;
+                default:
+            }
         }
-    }
-    // Convert "a" to "an" as necessary.
-    for (var i = 0; i < sentence.length; ++i) {
-        if (sentence[i] === "a" && isVowel(sentence[i+1])) {
-            sentence[i] = "an";
+        // Convert "a" to "an" as necessary.
+        for (var i = 0; i < sentence.length; ++i) {
+            if (sentence[i] === "a" && isVowel(sentence[i+1])) {
+                sentence[i] = "an";
+            }
         }
+        var result = sentence.join(" ");
+        result += ".";
+        result = result.charAt(0).toUpperCase() + result.slice(1);
+        sentences.push(result);
     }
-    var result = sentence.join(" ");
-    result += ".";
-    result = result.charAt(0).toUpperCase() + result.slice(1);
-    //return result;
-    state[instance]["stories"].push(result);
+    state[instance]["stories"].push(sentences.join("  "));
     IdeaStore.emitChange();
 }
 
@@ -156,13 +220,35 @@ var grammar = {
     proposition: [ ["preposition"] ]
 }
 
+var initialRuleUses = {
+    sentence: 0,
+    subject: 0,
+    proNoun: 0,
+    properNoun: 0,
+    determiner: 0,
+    descriptiveNoun: 0,
+    adjective: 0,
+    noun: 0,
+    predicate: 0,
+    verb: 0,
+    prepositionPhrase: 0,
+    proposition: 0
+}
+
 var bases = ["proNoun", "properNoun", "determiner", "noun", "verb", "preposition", "adjective"];
 var proNouns = ["I", "he", "she", "one", "they", "it", "you"];
 var determiners = ["the", "a", "this", "that", "my", "your", "his", "her", "our", "any"];
 var prepositions = ["from", "to", "on", "near", "above", "across", "among", "behind", "below", "beyond"];
 
+function getWeightedRandom(options, weights) {
+    return options[weights[Math.floor(Math.random() * weights.length)]];
+}
+
 function generateStructure() {
+    // Current structure of the sentence.
     var currentStructure = ["sentence"];
+    // Current uses of each rule in the grammar.
+    var ruleUses = initialRuleUses;
     while (true) {
         var newStructure = [];
         for (var i = 0; i < currentStructure.length; ++i) {
@@ -172,8 +258,17 @@ function generateStructure() {
                 continue;
             }
             var options = grammar[type];
-            // Choose one of the options randomly
-            var choice = getRandom(options);
+            var uses = ruleUses[type];
+            // Choose one of the options
+            var choice;
+            switch(type) {
+                case "subject":
+                    choice = uses === 0 ? getRandom(options) : getWeightedRandom(options, [1, 2, 2]);
+                    break;
+                default:
+                    choice = getRandom(options);
+            }
+            ruleUses[type] = ruleUses[type] + 1;
             newStructure = newStructure.concat(choice);
         }
         currentStructure = newStructure;

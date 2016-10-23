@@ -4,7 +4,7 @@ var descriptiveAdjectives = [
 "yellow",
 "green",
 "blue",
-"indego",
+"indigo",
 "violet",
 "black",
 "grey",
