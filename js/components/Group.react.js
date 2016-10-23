@@ -22,7 +22,7 @@ var Group = React.createClass({
         var association = this.props.association;
         var stories = this.props.stories;
         var instance = this.props.instance;
-
+console.log(dataURL);
         var displays = [];
         for (var i = 1; i < stories.length; ++i) {
             displays.push(<li key={i} className="diminish">{stories[i]}</li>);

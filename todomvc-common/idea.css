@@ -8,8 +8,8 @@
     height: 400px;
     max-height: 400px;
     margin: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .center_button {
@@ -31,6 +31,11 @@
     font-color: #bfbfbf;
 }
 
+.customizer {
+    height: 50px;
+    background-color: #ff99cc;
+}
+
 body {
-    background: #d9d9d9;
+    background: black; /*#d9d9d9;*/
 }

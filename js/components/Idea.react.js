@@ -3,6 +3,10 @@ var IdeaStore = require('../stores/IdeaStore');
 var IdeaConstants = require('../constants/IdeaConstants');
 var IdeaActions = require('../actions/IdeaActions');
 
+var Button = require('react-bootstrap/lib/Button');
+var ButtonGroup = require('react-bootstrap/lib/ButtonGroup');
+var ButtonToolbar = require('react-bootstrap/lib/ButtonToolbar');
+
 var Group = require('./Group.react');
 
 function getState() {
@@ -24,6 +28,28 @@ function drawImageScaled(img, ctx) {
 }
 
 var Idea = React.createClass({
+
+    _initialPicture: function() {
+        // Create an image holding the photo.
+        var image = new Image();//document.createElement('img');
+        image.setAttribute('crossOrigin', 'anonymous');
+        image.crossorigin="anonymous";
+        image.onload = function() {
+            // Create a canvas that will be displayed in the DOM.
+            var canvas = document.createElement('canvas');
+            canvas.width = 305;
+            canvas.height = 305;
+            var context = canvas.getContext('2d');
+            // Fit/scale the image to the canvas appropriately.
+            drawImageScaled(image, context);
+
+            // Send the base64 encoding of the photo to the model.
+            var dataURL = canvas.toDataURL("image/png");
+            IdeaActions.sendImageData([name, dataURL]);
+        };
+        var name = "bear.jpg";
+        image.setAttribute("src", "photos/" + name);
+    },
     
     _newPicture: function() {
         var input = document.getElementById("storyInput");
@@ -45,6 +71,7 @@ var Idea = React.createClass({
 
                 // Send the base64 encoding of the photo to the model.
                 var dataURL = canvas.toDataURL("image/png");
+console.log(dataURL);
                 IdeaActions.sendImageData([name, dataURL]);
             };
             reader.readAsDataURL(input.files[0]);
@@ -57,6 +84,7 @@ var Idea = React.createClass({
 
     componentDidMount: function() {
         IdeaStore.addChangeListener(this._onChange);
+        this._initialPicture();
     },
 
     componentWillUnmount: function() {
@@ -72,7 +100,9 @@ var Idea = React.createClass({
         }
         return (
             <div>
-                <input id="storyInput" type="file" onChange={this._newPicture} />
+                <div className="customizer">
+                    <input id="storyInput" type="file" onChange={this._newPicture} />
+                </div>
                 <div>{displays}</div>
             </div>
         );
