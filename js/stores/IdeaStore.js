@@ -361,8 +361,8 @@ var proNouns = ["I", "he", "she", "one", "they", "it", "you"];
 var determiners = ["the", "a", "this", "that", "my", "your", "his", "her", "our", "any"];
 var prepositions = ["from", "to", "on", "near", "above", "across", "among", "behind", "below", "beyond"];
 // For the gangster feature:
-var greetings = ["yo dawg, ", "sup bro, ", "what's up homie, ", "wassup, "];
-var terminals = [", you know what I'm saying", ", straight up", ", ya feel me"];
+var greetings = ["yo dawg, ", "sup bro, ", "what's up homie, ", "wassup, ", "damn son, ", "you know how it is, ", "straight up I'll tell you, "];
+var terminals = [", you know what I'm saying", ", straight up", ", ya feel me", ".  You gotta be out of you mind"];
 
 function getWeightedRandom(options, weights) {
     return options[weights[Math.floor(Math.random() * weights.length)]];
