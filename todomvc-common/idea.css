@@ -28,8 +28,9 @@
 }
 
 .title {
+    margin-top: -12px;
     font-weight: bold;
-    font-size: 55;
+    font-size: 43px;
     text-align: center;
 }
 
@@ -50,6 +51,8 @@
 .customizer {
     height: 60px;
     padding-top: 11px;
+    padding-left: 15px;
+    padding-right: 15px;
     background-color: #ffbf80;
 }
 
