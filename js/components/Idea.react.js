@@ -34,27 +34,31 @@ function drawImageScaled(img, ctx) {
 
 var Idea = React.createClass({
 
+    _image: function(name) {
+console.log(name);
+        // Create an image holding the photo.
+        var image = document.createElement('img');
+        image.setAttribute('crossOrigin', 'anonymous');
+        image.onload = function() {
+            // Create a canvas that will be displayed in the DOM.
+            var canvas = document.createElement('canvas');
+            canvas.width = 305;
+            canvas.height = 305;
+            var context = canvas.getContext('2d');
+            // Fit/scale the image to the canvas appropriately.
+            drawImageScaled(image, context);
+
+            // Send the base64 encoding of the photo to the model.
+            var dataURL = canvas.toDataURL("image/png");
+            IdeaActions.sendImageData([name, dataURL]);
+        };
+        image.setAttribute("src", "photos/" + name);
+    },
+
     _initialPicture: function() {
         var names = ["bear.jpg", "elephant.jpg", "dolphin.jpg", "baby.jpg"];
         for (var i = 0; i < names.length; ++i) {
-            var name = names[i];
-            // Create an image holding the photo.
-            var image = document.createElement('img');
-            image.setAttribute('crossOrigin', 'anonymous');
-            image.onload = function() {
-                // Create a canvas that will be displayed in the DOM.
-                var canvas = document.createElement('canvas');
-                canvas.width = 305;
-                canvas.height = 305;
-                var context = canvas.getContext('2d');
-                // Fit/scale the image to the canvas appropriately.
-                drawImageScaled(image, context);
-
-                // Send the base64 encoding of the photo to the model.
-                var dataURL = canvas.toDataURL("image/png");
-                IdeaActions.sendImageData([name, dataURL]);
-            };
-            image.setAttribute("src", "photos/" + name);
+            this._image(names[i]);
         }
     },
     
