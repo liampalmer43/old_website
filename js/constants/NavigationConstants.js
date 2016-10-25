@@ -7,6 +7,7 @@ module.exports = keyMirror({
     CODING: null,
     RESUME: null,
     REACT: null,
+    PICTO_STORY: null,
     // Actions
     CHANGE_STATE: null
 });

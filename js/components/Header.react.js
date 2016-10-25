@@ -31,6 +31,12 @@ var Header = React.createClass({
     _react: function() {
     },
 
+    _pictoStory: function() {
+        NavigationActions.update(NavigationConstants.PICTO_STORY);
+    },
+
+    // <MenuItem state={NavigationConstants.REACT} image_path={'photos/React.png'} title={'REACT'} onclick={this._react}/>
+
     render: function() {
         return (
             <div className="header">
@@ -46,7 +52,7 @@ var Header = React.createClass({
                         <MenuItem state={NavigationConstants.INTERNSHIPS} image_path={'photos/Intern.jpg'} title={'INTERNSHIPS'} onclick={this._internships}/>
                         <MenuItem state={NavigationConstants.CODING} image_path={'photos/Coding.jpg'} title={'CODING'} onclick={this._coding}/>
                         <MenuItem state={NavigationConstants.RESUME} image_path={'photos/resume.jpg'} title={'RESUME'} onclick={this._resume}/>
-                        <MenuItem state={NavigationConstants.REACT} image_path={'photos/React.png'} title={'REACT'} onclick={this._react}/>
+                        <MenuItem state={NavigationConstants.PICTO_STORY} image_path={'photos/Story.jpg'} title={'PICTO STORY'} onclick={this._pictoStory}/>
                     </Col>
                     <Col xs={3} sm={3} md={3} lg={3} className="header_right">
                         <h5>University of Waterloo <Glyphicon glyph="education" /></h5>

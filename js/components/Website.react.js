@@ -2,6 +2,7 @@ var Header = require('./Header.react');
 var PersonalProjects = require('./PersonalProjects.react');
 var Internships = require('./Internships.react');
 var Coding = require('./Coding.react');
+var PictoStory = require('./Idea.react');
 var React = require('react');
 var NavigationStore = require('../stores/NavigationStore');
 var NavigationConstants = require('../constants/NavigationConstants');
@@ -40,6 +41,9 @@ var Website = React.createClass({
                 break;
             case NavigationConstants.RESUME:
                 content = <div className="center"><embed src="photos/resume.pdf" width="750" height="950" type='application/pdf' /></div>
+                break;
+            case NavigationConstants.PICTO_STORY:
+                content = <PictoStory />;
                 break;
             default:
         }
