@@ -75,13 +75,13 @@ function sendImage(imageData) {
         visionAPI: false,
         emotionAPI: false
     };
-    state.unshift(group);
+    var len = state.unshift(group);
     IdeaStore.emitChange();
-    computerVisionAPI(image);
-    emotionAPI(image);
+    computerVisionAPI(image, len);
+    emotionAPI(image, len);
 }
 
-function computerVisionAPI(image) {
+function computerVisionAPI(image, offsetFromEnd) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "https://api.projectoxford.ai/vision/v1.0/analyze?visualFeatures=Description&subscription-key=9f29dc017074487e9150b2265d8e39aa", true);
     xhr.setRequestHeader("Content-type", "application/octet-stream");
@@ -90,15 +90,15 @@ function computerVisionAPI(image) {
             var response = JSON.parse(xhr.responseText);
             var association = response["description"]["tags"];
             // alert(association.join());
-            state[0]["association"] = association;
+            state[state.length - offsetFromEnd]["association"] = association;
         }
-        state[0]["visionAPI"] = true;
+        state[state.length - offsetFromEnd]["visionAPI"] = true;
         IdeaStore.emitChange();
     }
     xhr.send(image);
 }
 
-function emotionAPI(image) {
+function emotionAPI(image, offsetFromEnd) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "https://api.projectoxford.ai/emotion/v1.0/recognize", true);
     xhr.setRequestHeader("Content-type", "application/octet-stream");
@@ -109,9 +109,9 @@ function emotionAPI(image) {
             // alert("Got emotion");
             if (response.length > 0) {
                 var scores = response[0]["scores"];
-                state[0]["emotions"] = scores;
+                state[state.length - offsetFromEnd]["emotions"] = scores;
             }
-            state[0]["emotionAPI"] = true;
+            state[state.length - offsetFromEnd]["emotionAPI"] = true;
             IdeaStore.emitChange();
         }
     }
