@@ -45,8 +45,8 @@ var Website = React.createClass({
                                 <a href="photos/resume.pdf">Download PDF</a>
                             </iframe>
                             <div className="space" />
-                            <iframe src="photos/grade_report.pdf" width="750" height="2170">
-                                <a href="photos/grade_report.pdf">Download PDF</a>
+                            <iframe src="photos/Grade_Report.pdf" width="750" height="2170">
+                                <a href="photos/Grade_Report.pdf">Download PDF</a>
                             </iframe>
                           </div>
                 break;
