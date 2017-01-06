@@ -48,11 +48,14 @@ var Header = React.createClass({
                         <h5><Glyphicon glyph="phone" /> GitHub: liampalmer43</h5>
                     </Col>
                     <Col xs={6} sm={6} md={6} lg={6} className="header_center">
-                        <MenuItem state={NavigationConstants.PERSONAL_PROJECTS} image_path={'photos/Adventure.jpg'} title={'ADVENTURES'} onclick={this._personalProjects}/>
-                        <MenuItem state={NavigationConstants.INTERNSHIPS} image_path={'photos/Intern.jpg'} title={'INTERNSHIPS'} onclick={this._internships}/>
-                        <MenuItem state={NavigationConstants.CODING} image_path={'photos/Coding.jpg'} title={'CODING'} onclick={this._coding}/>
-                        <MenuItem state={NavigationConstants.RESUME} image_path={'photos/resume.jpg'} title={'RESUME'} onclick={this._resume}/>
-                        <MenuItem state={NavigationConstants.PICTO_STORY} image_path={'photos/Story.jpg'} title={'PICTO STORY'} onclick={this._pictoStory}/>
+                        <div className="menuItemContainer">
+                            <MenuItem state={NavigationConstants.PERSONAL_PROJECTS} image_path={'photos/Adventure.jpg'} title={'ADVENTURES'} onclick={this._personalProjects}/>
+                            <MenuItem state={NavigationConstants.INTERNSHIPS} image_path={'photos/Intern.jpg'} title={'INTERNSHIPS'} onclick={this._internships}/>
+                            <MenuItem state={NavigationConstants.CODING} image_path={'photos/Coding.jpg'} title={'CODING'} onclick={this._coding}/>
+                            <MenuItem state={NavigationConstants.RESUME} image_path={'photos/resume.jpg'} title={'RESUME'} onclick={this._resume}/>
+                            <MenuItem state={NavigationConstants.PICTO_STORY} image_path={'photos/Story.jpg'} title={'PICTO STORY'} onclick={this._pictoStory}/>
+                            <div className="clearBoth" />
+                        </div>
                     </Col>
                     <Col xs={3} sm={3} md={3} lg={3} className="header_right">
                         <h5>University of Waterloo <Glyphicon glyph="education" /></h5>

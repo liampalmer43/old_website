@@ -14,16 +14,15 @@ var BlogPost = React.createClass({
 
     return (
         <div className="blog_post">
-            <Panel header={title} bsStyle="info">
-                <Row>
-                    <Col xs={6} sm={6} md={6} lg={6}>
-                        <Image rounded className="blog_image" src={image_path} />
-                    </Col>
-                    <Col xs={6} sm={6} md={6} lg={6}>
-                        <p className="text_justify">{description}</p>
-                    </Col>
-                </Row>
-            </Panel>
+            <h1 className="center blogPostHeader">{title}</h1>
+            <Row>
+                <Col xs={6} sm={6} md={6} lg={6}>
+                    <Image rounded className="blog_image" src={image_path} />
+                </Col>
+                <Col xs={6} sm={6} md={6} lg={6}>
+                    <p className="text_justify">{description}</p>
+                </Col>
+            </Row>
         </div>
     );
   }

@@ -40,7 +40,15 @@ var Website = React.createClass({
                 content = <Coding />;
                 break;
             case NavigationConstants.RESUME:
-                content = <div className="center"><embed src="photos/resume.pdf" width="750" height="950" type='application/pdf' /></div>
+                content = <div className="center">
+                            <iframe src="photos/resume.pdf" width="750" height="1030">
+                                <a href="photos/resume.pdf">Download PDF</a>
+                            </iframe>
+                            <div className="space" />
+                            <iframe src="photos/grade_report.pdf" width="750" height="2170">
+                                <a href="photos/grade_report.pdf">Download PDF</a>
+                            </iframe>
+                          </div>
                 break;
             case NavigationConstants.PICTO_STORY:
                 content = <PictoStory />;
