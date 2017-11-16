@@ -6,6 +6,7 @@ var PictoStory = require('./Idea.react');
 var React = require('react');
 var NavigationStore = require('../stores/NavigationStore');
 var NavigationConstants = require('../constants/NavigationConstants');
+var NavigationActions = require('../actions/NavigationActions');
 
 function getState() {
     return {
@@ -21,6 +22,25 @@ var Website = React.createClass({
 
     componentDidMount: function() {
         NavigationStore.addChangeListener(this._onChange);
+
+        const page = this.props.match.params.page;
+        if (page) {
+            switch (page) {
+                case 'internships':
+                    NavigationActions.update(NavigationConstants.INTERNSHIPS);
+                    break;
+                case 'coding':
+                    NavigationActions.update(NavigationConstants.CODING);
+                    break;
+                case 'resume':
+                    NavigationActions.update(NavigationConstants.RESUME);
+                    break;
+                default:
+                    // Nothing, state is already set to inital value.
+                    break;
+            }
+        }
+        console.log(page);
     },
 
     componentWillUnmount: function() {
